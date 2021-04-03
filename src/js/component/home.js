@@ -21,13 +21,30 @@ export function Home() {
 					}}
 					type="text"
 					className="form-control"
-					placeholder=""
+					placeholder="Enter a new task"
 					aria-label=""
 					aria-describedby="basic-addon1"
 				/>
 			</div>
-			<ul style={{ listStyleType: "none" }}>
-				<li></li>
+			<ul className="list-group">
+				{list.map((item, index) => {
+					return (
+						<li className="list-group-item" key={index}>
+							<button
+								onClick={() => {
+									setList(
+										list.filter(
+											(itemf, indexf) => indexf !== index
+										)
+									);
+								}}
+								type="button"
+								className="btn btn-outline-light float-right">
+								<i className="fas fa-times"></i>
+							</button>
+						</li>
+					);
+				})}
 			</ul>
 		</div>
 	);
