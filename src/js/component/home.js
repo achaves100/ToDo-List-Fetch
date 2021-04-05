@@ -27,9 +27,9 @@ export function Home() {
 				/>
 			</div>
 			<ul className="list-group">
-				{list.map((item, index) => {
+				{list.map((_item, index) => {
 					return (
-						<li className="list-group-item" key={index}>
+						<li className="list-group-item " key={index}>
 							<button
 								onClick={() => {
 									setList(
@@ -42,6 +42,7 @@ export function Home() {
 								className="btn btn-outline-light float-right">
 								<i className="fas fa-times"></i>
 							</button>
+							{_item}
 						</li>
 					);
 				})}
