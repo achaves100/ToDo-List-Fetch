@@ -32,6 +32,33 @@ export function Home() {
 			.catch(error => console.error("Error:", error.message));
 	};
 
+	const newTodo = () => {
+		let array = [];
+		fetch(url, {
+			method: "POST",
+			body: JSON.stringify(array),
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(res => res.json())
+			.then(data => {
+				loadTodo();
+			})
+			.catch(error => console.error("Error:", error.message));
+	};
+
+	const deleteTodo = () => {
+		fetch(url, {
+			method: "DELETE",
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(res => res.json())
+			.then(data => {
+				newTodo();
+				alert(data.result);
+			})
+			.catch(error => console.error("Error:", error.message));
+	};
+
 	useEffect(() => {
 		loadTodo();
 	}, []);
