@@ -1,8 +1,40 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export function Home() {
 	const [task, setTask] = useState("");
 	const [list, setList] = useState([]);
+	var url = "https://assets.breatheco.de/apis/fake/todos/user/achaves100";
+
+	const loadTodo = () => {
+		fetch(url, {
+			method: "GET",
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(res => res.json())
+			.then(data => {
+				setList(data);
+				//console.log({ data });
+			}) //cargando la info
+			.catch(error => console.error("Error:", error.message));
+	};
+
+	const updateTodo = lista => {
+		fetch(url, {
+			method: "PUT",
+			body: JSON.stringify(lista),
+			headers: { "Content-Type": "application/json" }
+		})
+			.then(res => res.json())
+			.then(data => {
+				loadTodo();
+				alert(data.result);
+			}) //cargando la info
+			.catch(error => console.error("Error:", error.message));
+	};
+
+	useEffect(() => {
+		loadTodo();
+	}, []);
 
 	return (
 		<div className="container text-muted">
@@ -14,7 +46,11 @@ export function Home() {
 					value={task}
 					onKeyPress={e => {
 						if (e.key == "Enter") {
-							setList(list.concat(task));
+							let obj = {
+								label: task,
+								done: false
+							};
+							setList(list.concat(obj));
 							setTask("");
 							console.log({ list });
 						}
@@ -42,11 +78,29 @@ export function Home() {
 								className="btn btn-outline-light float-right">
 								<i className="fas fa-times"></i>
 							</button>
-							{_item}
+							{_item.label}
 						</li>
 					);
 				})}
 			</ul>
+			<div className="row d-flex justify-content-center">
+				<button
+					type="button"
+					className="btn btn-outline-success"
+					onClick={() => {
+						updateTodo(list);
+					}}>
+					Update
+				</button>
+				<button
+					type="button"
+					className="btn btn-outline-danger"
+					onClick={() => {
+						// deleteTodo();
+					}}>
+					Delete
+				</button>
+			</div>
 		</div>
 	);
 }
